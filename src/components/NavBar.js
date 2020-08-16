@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {CardMedia, AppBar, Toolbar, Paper, Avatar, Grid} from '@material-ui/core';
 import AppContext from '../context/app-context';
 import logoWezom from '../assets/images/icons/logo.svg';
-import {Link} from 'react-router-dom';
+import {Link, Route, Switch} from 'react-router-dom';
+import SignIn from "../auth/sign-in";
+import SignUp from "../auth/sign-up";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,8 +28,11 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+
 const NavBar = (props) => {
     const classes = useStyles();
+    const route = window.location.href;
+
     return (
         <Grid className={classes.root}>
             <AppBar position='static'>
@@ -56,9 +61,14 @@ const NavBar = (props) => {
                           direction="row"
                           justify="flex-start"
                           alignItems="center">
-                        <Link to='/signin' className={classes.link} >
-                            Sign In
-                        </Link>
+                        { route.includes('signin') ?
+                            <Link to='/signin' className={classes.link} >
+                                Sign In
+                            </Link> :
+                            <Link to='/signup' className={classes.link} >
+                                Sign Up
+                            </Link>
+                        }
                     </Grid>
                 </Toolbar>
             </AppBar>

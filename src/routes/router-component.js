@@ -6,7 +6,6 @@ import {
     Paper,
     Button
 } from "@material-ui/core";
-import {IOptions as classes} from "glob";
 import SettingsIcon from "@material-ui/icons/Settings";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -16,26 +15,21 @@ import Main from "../screens/Main";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import NavBar from "../components/NavBar";
 import background from "../assets/images/background/main-background.jpg";
+import SignIn from "../auth/sign-in";
+import SignUp from "../auth/sign-up";
+import Copyright from "../components/Copyright";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1,
-        marginTop: 0,
-        zIndex: 1,
-        height: "100vh",
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        justifyContent: 'space-between',
         objectFit: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
-        overflowX: "hidden",
-        minHeight: "100%",
-        maxHeight: "100%",
         backgroundImage: `url(${background})`,
-        position: 'relative',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
     },
 
     paper: {
@@ -64,14 +58,17 @@ function RouterComponent(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     return (
+        <Box className={classes.root}>
+
         <Router>
-            <Box className={classes.root}>
-                <Box className={classes.subRoot}>
+                    <header>
                     <Grid container direction="row">
                         <Grid container direction="row" justify="space-around">
                             <NavBar/>
                         </Grid>
                     </Grid>
+                    </header>
+
                     <Switch>
                         <Route exact path="/">
                             <Main />
@@ -82,10 +79,19 @@ function RouterComponent(props) {
                         <Route path="/contacts">
                             <Contacts />
                         </Route>
+                        <Route path="/signin">
+                            <SignIn />
+                        </Route>
+                        <Route path="/signup">
+                            <SignUp />
+                        </Route>
                     </Switch>
-                </Box>
-            </Box>
+                    <footer>
+                        <Copyright />
+                    </footer>
         </Router>
+        </Box>
+
     );
 }
 
