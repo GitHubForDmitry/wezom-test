@@ -3,12 +3,13 @@ import firebase from "../firebase/index";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { countUsers } from "../features/randomCountUsers";
-
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState('');
     const [data, setData] = useState([]);
+    const [filter, setFilter] = useState("");
+    const [loader, setLoader] = useState(false);
 
     const load = async () => {
         try {
@@ -28,7 +29,11 @@ const AppProvider = ({ children }) => {
         <AppContext.Provider
             value={{
                 currentUser,
-                data
+                data,
+                filter,
+                setFilter,
+                loader,
+                setLoader
             }}
         >
             {children}
