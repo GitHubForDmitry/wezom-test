@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {CardMedia, AppBar, Toolbar, Paper, Avatar, Grid} from '@material-ui/core';
-import AppContext from '../context/app-context';
+import {CardMedia, AppBar, Toolbar, Paper, Avatar, Grid, Button} from '@material-ui/core';
 import logoWezom from '../assets/images/icons/logo.svg';
-import {Link, Route, Switch} from 'react-router-dom';
-import SignIn from "../auth/sign-in";
-import SignUp from "../auth/sign-up";
+import { Link } from 'react-router-dom';
+import firebase from "../firebase/index";
+import { withRouter } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,9 +29,34 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const NavBar = (props) => {
+const NavBar = ({ history }) => {
     const classes = useStyles();
-    const route = window.location.href;
+    const location = window.location.href.includes('signup');
+    const [userName, setUserName] = useState('');
+    const checkUser = () => firebase.auth().onAuthStateChanged(function(user) {
+        try {
+            if (user) {
+                setUserName(user.email);
+            }
+        }
+        catch (e) {
+            toast(e.message);
+        }
+    });
+
+    useEffect(() => {
+        checkUser()
+    }, [])
+
+    const signOut = useCallback(async event => {
+        event.preventDefault();
+        try {
+            await firebase.auth().signOut().then(history.push('/'));
+        }
+       catch (e) {
+           toast(e.message);
+       }
+    }, [history]);
 
     return (
         <Grid className={classes.root}>
@@ -60,15 +85,16 @@ const NavBar = (props) => {
                           container
                           direction="row"
                           justify="flex-start"
-                          alignItems="center">
-                        { route.includes('signin') ?
-                            <Link to='/signin' className={classes.link} >
-                                Sign In
-                            </Link> :
-                            <Link to='/signup' className={classes.link} >
-                                Sign Up
+                          alignItems="center"
+                    >
+                            <Link to={`/sign${location ? 'up' : 'in'}`} className={classes.link} >
+                                { !!userName ? userName : `${location ? 'Sign Up' : 'Sign In'}`}
                             </Link>
-                        }
+                            {!!userName &&
+                                <Link onClick={signOut} to='/' className={classes.link} >
+                                    Sign Out
+                                </Link>
+                            }
                     </Grid>
                 </Toolbar>
             </AppBar>
@@ -76,4 +102,4 @@ const NavBar = (props) => {
     );
 }
 
-export default (NavBar)
+export default withRouter(NavBar)

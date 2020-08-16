@@ -18,6 +18,7 @@ import background from "../assets/images/background/main-background.jpg";
 import SignIn from "../auth/sign-in";
 import SignUp from "../auth/sign-up";
 import Copyright from "../components/Copyright";
+import PrivateRoute from "./private-route";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -70,6 +71,7 @@ function RouterComponent(props) {
                     </header>
 
                     <Switch>
+                        <PrivateRoute exact path='/' component={ Home }/>
                         <Route exact path="/">
                             <Main />
                         </Route>
