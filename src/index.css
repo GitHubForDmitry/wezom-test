@@ -7,4 +7,7 @@
 
 main {
     height: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10% -0px;
 }

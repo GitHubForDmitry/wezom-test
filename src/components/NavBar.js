@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {CardMedia, AppBar, Toolbar, Paper, Avatar, Grid, Button} from '@material-ui/core';
+import {CardMedia, AppBar, Toolbar, Grid } from '@material-ui/core';
 import logoWezom from '../assets/images/icons/logo.svg';
 import { Link } from 'react-router-dom';
 import firebase from "../firebase/index";
