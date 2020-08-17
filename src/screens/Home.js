@@ -5,22 +5,25 @@ import ImgMediaCard from '../components/Card';
 import CustomizedInputBase from "../components/Search";
 import useDebounce from "../features/debounce";
 import CircularIndeterminate from "../components/Loader";
+import SimpleSelect from "../components/SortGender";
 
 function Home(props) {
 
-    const { data, filter, loader } = useContext(AppContext)
-
+    const { data, filter, gender } = useContext(AppContext)
     return (
         <main>
             <Box mb={2}>
                 <CustomizedInputBase  />
             </Box>
+            <Box mb={2}>
+                <SimpleSelect />
+            </Box>
             <Box>
                 <Grid container item xs={12} justify='flex-start'>
-
                     {useDebounce(data
                         .filter(item =>
                             item.name.first.toLowerCase().includes(filter))
+                        .filter(item => item.gender.includes(gender))
                         .map((item, index) => <ImgMediaCard key={index} data={item}/> ), 1000)}
                 </Grid>
             </Box>

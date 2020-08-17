@@ -13,6 +13,8 @@ import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import WcIcon from '@material-ui/icons/Wc';
+import FlagIcon from '@material-ui/icons/Flag';
 
 const useStyles = makeStyles({
     root: {
@@ -38,6 +40,9 @@ const useStyles = makeStyles({
         display: 'block',
         color: '#1976d2',
     },
+    text: {
+        color: '#1976d2',
+    },
     imageWrap: {
         display: 'flex',
         alignItems: 'center',
@@ -47,7 +52,6 @@ const useStyles = makeStyles({
 
 export default function ImgMediaCard({ data }) {
     const classes = useStyles();
-
     return (
         <Card className={classes.root} pr={2}>
             <CardActionArea>
@@ -74,24 +78,41 @@ export default function ImgMediaCard({ data }) {
                             {data.phone}
                         </Link>
                     </Grid>
-                        <Grid item xs={8} className={classes.imageWrap}>
+                    <Grid item xs={8} className={classes.imageWrap}>
+                        <Box  mr={2}>
+                            <EmailIcon color="primary"/>
+                        </Box>
+                        <Link to={`mailto:${data.email}`} className={classes.link}>
+                            {data.email}
+                        </Link>
+                    </Grid>
+                    <Grid item xs={8} className={classes.imageWrap}>
+                        <Box  mr={2}>
+                            <LocationOnIcon color="primary"/>
+                        </Box>
+                        <Typography className={classes.text} component='p'>
+                            {data.location.country}
+
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={8} className={classes.imageWrap}>
                             <Box  mr={2}>
-                                <EmailIcon color="primary"/>
+                                <FlagIcon color="primary"/>
                             </Box>
-                            <Link to={`mailto:${data.email}`} className={classes.link}>
-                                {data.email}
-                            </Link>
-                        </Grid>
+                        <Typography className={classes.text} component='p'>
+                            {data.location.country}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={8} className={classes.imageWrap}>
+                        <Box  mr={2}>
+                            <WcIcon color="primary"/>
+                        </Box>
+                        <Typography className={classes.text} component='p'>
+                            {data.gender}
+                        </Typography>
+                    </Grid>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                <Button size="small" color="primary">
-                    Share
-                </Button>
-                <Button size="small" color="primary">
-                    Learn More
-                </Button>
-            </CardActions>
         </Card>
     );
 }

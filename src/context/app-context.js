@@ -10,6 +10,7 @@ const AppProvider = ({ children }) => {
     const [data, setData] = useState([]);
     const [filter, setFilter] = useState("");
     const [loader, setLoader] = useState(false);
+    const [gender, setGender] = React.useState('');
 
     const load = async () => {
         try {
@@ -18,6 +19,9 @@ const AppProvider = ({ children }) => {
         } catch (e) {
             toast(e.message)
         }
+    };
+    const handleChange = (event) => {
+        setGender(event.target.value);
     };
 
     useEffect(() => {
@@ -33,7 +37,10 @@ const AppProvider = ({ children }) => {
                 filter,
                 setFilter,
                 loader,
-                setLoader
+                setLoader,
+                setData,
+                handleChange,
+                gender
             }}
         >
             {children}
