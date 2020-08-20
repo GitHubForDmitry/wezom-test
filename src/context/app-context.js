@@ -13,12 +13,13 @@ const AppProvider = ({ children }) => {
     const [gender, setGender] = React.useState('');
     const [filterGender, setFilterGender] = React.useState('');
     const [countries, setCountries] = React.useState([]);
+    const [personName, setPersonName] = React.useState([]);
 
     const load = async () => {
         try {
             const response = await axios(`https://randomuser.me/api/1.3?results=${countUsers}`);
             setData(response.data.results);
-            const allCountries = response.data.results.map(item => item.location.country);
+            const allCountries = [...new Set(response.data.results.map(item => item.location.country))];
             setCountries(allCountries);
         } catch (e) {
             toast(e.message)
@@ -31,6 +32,13 @@ const AppProvider = ({ children }) => {
     const handleChange = (event) => {
         setGender(event.target.value);
         filterSex(data, event.target.value);
+    };
+
+    const handleChangeMultiple = (event) => {
+        const val = event.target.value;
+        setPersonName(val);
+        const filterCountry = data.filter(item => item.location.country === val);
+        console.log(personName);
     };
 
     useEffect(() => {
@@ -50,7 +58,11 @@ const AppProvider = ({ children }) => {
                 setData,
                 handleChange,
                 gender,
-                filterGender
+                filterGender,
+                countries,
+                setPersonName,
+                personName,
+                handleChangeMultiple
             }}
         >
             {children}

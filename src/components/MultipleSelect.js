@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import MenuItem from "@material-ui/core/MenuItem";
+import Chip from "@material-ui/core/Chip";
+import Input from "@material-ui/core/Input";
+import AppContext, {AppProvider} from "../context/app-context";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -33,46 +37,45 @@ const MenuProps = {
     },
 };
 
+function getStyles(name, personName, theme) {
+    return {
+        fontWeight:
+            personName.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+}
 
 export default function MultipleSelect() {
     const classes = useStyles();
     const theme = useTheme();
-    const [personName, setPersonName] = React.useState([]);
 
-    const handleChange = (event) => {
-        setPersonName(event.target.value);
-    };
-
-    const handleChangeMultiple = (event) => {
-        const { options } = event.target;
-        const value = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
-        }
-        setPersonName(value);
-    };
+    const { personName, countries, handleChangeMultiple } = useContext(AppContext);
 
     return (
         <div>
             <FormControl className={classes.formControl}>
-                <InputLabel shrink htmlFor="select-multiple-native">
-                    Native
-                </InputLabel>
+                <InputLabel id="demo-mutiple-chip-label">Chip</InputLabel>
                 <Select
+                    labelId="demo-mutiple-chip-label"
+                    id="demo-mutiple-chip"
                     multiple
-                    native
                     value={personName}
                     onChange={handleChangeMultiple}
-                    inputProps={{
-                        id: 'select-multiple-native',
-                    }}
+                    input={<Input id="select-multiple-chip" />}
+                    renderValue={(selected) => (
+                        <div className={classes.chips}>
+                            {selected.map((value) => (
+                                <Chip key={value} label={value} className={classes.chip} />
+                            ))}
+                        </div>
+                    )}
+                    MenuProps={MenuProps}
                 >
-                    {names.map((name) => (
-                        <option key={name} value={name}>
+                    {countries.map((name, index) => (
+                        <MenuItem key={index} value={name} style={getStyles(name, personName, theme)}>
                             {name}
-                        </option>
+                        </MenuItem>
                     ))}
                 </Select>
             </FormControl>

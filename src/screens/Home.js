@@ -6,10 +6,12 @@ import CustomizedInputBase from "../components/Search";
 import useDebounce from "../features/debounce";
 import CircularIndeterminate from "../components/Loader";
 import SimpleSelect from "../components/SortGender";
+import MultipleSelect from "../components/MultipleSelect";
+import Typography from "@material-ui/core/Typography";
 
 function Home(props) {
 
-    const { data, filter, filterGender } = useContext(AppContext);
+    const { data, filter, filterGender, countries } = useContext(AppContext);
 
     return (
         <main>
@@ -18,6 +20,9 @@ function Home(props) {
             </Box>
             <Box mb={2}>
                 <SimpleSelect />
+            </Box>
+            <Box mb={2}>
+                <MultipleSelect countries={countries} />
             </Box>
             <Box>
                 <Grid container item xs={12} justify='flex-start'>
