@@ -12,11 +12,14 @@ const AppProvider = ({ children }) => {
     const [loader, setLoader] = useState(false);
     const [gender, setGender] = React.useState('');
     const [filterGender, setFilterGender] = React.useState('');
+    const [countries, setCountries] = React.useState([]);
 
     const load = async () => {
         try {
             const response = await axios(`https://randomuser.me/api/1.3?results=${countUsers}`);
             setData(response.data.results);
+            const allCountries = response.data.results.map(item => item.location.country);
+            setCountries(allCountries);
         } catch (e) {
             toast(e.message)
         }
