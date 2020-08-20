@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleSelect() {
     const classes = useStyles();
-    const { age, handleChange } = useContext(AppContext);
+    const { gender, handleChange } = useContext(AppContext);
 
 
 
@@ -26,7 +26,7 @@ export default function SimpleSelect() {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={age}
+                    value={gender}
                     onChange={handleChange}
                 >
                     <MenuItem value={'female'}>Female</MenuItem>

@@ -11,6 +11,7 @@ const AppProvider = ({ children }) => {
     const [filter, setFilter] = useState("");
     const [loader, setLoader] = useState(false);
     const [gender, setGender] = React.useState('');
+    const [filterGender, setFilterGender] = React.useState('');
 
     const load = async () => {
         try {
@@ -20,8 +21,13 @@ const AppProvider = ({ children }) => {
             toast(e.message)
         }
     };
+    const filterSex = (data, sex) => {
+        let filtered = data.filter((obj) => obj.gender === sex);
+        setFilterGender(filtered);
+    }
     const handleChange = (event) => {
         setGender(event.target.value);
+        filterSex(data, event.target.value);
     };
 
     useEffect(() => {
@@ -40,7 +46,8 @@ const AppProvider = ({ children }) => {
                 setLoader,
                 setData,
                 handleChange,
-                gender
+                gender,
+                filterGender
             }}
         >
             {children}

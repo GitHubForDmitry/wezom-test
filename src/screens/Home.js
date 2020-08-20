@@ -9,7 +9,8 @@ import SimpleSelect from "../components/SortGender";
 
 function Home(props) {
 
-    const { data, filter, gender } = useContext(AppContext)
+    const { data, filter, filterGender } = useContext(AppContext);
+
     return (
         <main>
             <Box mb={2}>
@@ -20,11 +21,17 @@ function Home(props) {
             </Box>
             <Box>
                 <Grid container item xs={12} justify='flex-start'>
-                    {useDebounce(data
+                    {!filterGender.length ? data
                         .filter(item =>
                             item.name.first.toLowerCase().includes(filter))
-                        .filter(item => item.gender.includes(gender))
-                        .map((item, index) => <ImgMediaCard key={index} data={item}/> ), 1000)}
+
+                        .map((item, index) => <ImgMediaCard key={index} data={item}/>) :
+                        filterGender
+                            .filter(item =>
+                                item.name.first.toLowerCase().includes(filter))
+
+                            .map((item, index) => <ImgMediaCard key={index} data={item}/>)
+                    }
                 </Grid>
             </Box>
         </main>

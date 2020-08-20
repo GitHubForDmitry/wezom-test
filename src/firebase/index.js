@@ -1,5 +1,4 @@
-import firebase from 'firebase';
-
+import * as firebase from 'firebase';
 const firebaseConfig = {
     apiKey: "AIzaSyDJt1lqZO4kS_cIlafJ05d7hOVGlbok3w8",
     authDomain: "wezom-test.firebaseapp.com",
