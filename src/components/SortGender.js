@@ -24,14 +24,14 @@ export default function SimpleSelect() {
             <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                 <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    native
+                    required
                     value={gender}
                     onChange={handleChange}
                 >
-                    <MenuItem value={'female'}>Female</MenuItem>
-                    <MenuItem value={'male'}>Male</MenuItem>
-                    <MenuItem value={'indeterminate'}>Indeterminate</MenuItem>
+                    <option value={'female'}>Female</option>
+                    <option value={'male'}>Male</option>
+                    <option value={'indeterminate'}>Indeterminate</option>
                 </Select>
             </FormControl>
         </>
