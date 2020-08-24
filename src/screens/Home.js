@@ -3,11 +3,9 @@ import AppContext from "../context/app-context";
 import {Box, Grid} from "@material-ui/core";
 import ImgMediaCard from '../components/Card';
 import CustomizedInputBase from "../components/Search";
-import useDebounce from "../features/debounce";
-import CircularIndeterminate from "../components/Loader";
 import SimpleSelect from "../components/SortGender";
 import MultipleSelect from "../components/MultipleSelect";
-import Typography from "@material-ui/core/Typography";
+import Statistic from "../components/Statistic";
 
 function Home(props) {
 
@@ -38,6 +36,9 @@ function Home(props) {
                             .map((item, index) => <ImgMediaCard key={index} data={item}/>)
                     }
                 </Grid>
+            </Box>
+            <Box>
+                <Statistic data={data}/>
             </Box>
         </main>
     );
