@@ -51,10 +51,8 @@ const useStyles = makeStyles({
     }
 });
 
-export default function ImgMediaCard({  }) {
+export default function ImgMediaCard({ data }) {
     const classes = useStyles();
-
-    const data = useSelector(data => data);
     return (
         <Card className={classes.root} pr={2}>
             <CardActionArea>
@@ -94,8 +92,7 @@ export default function ImgMediaCard({  }) {
                             <LocationOnIcon color="primary"/>
                         </Box>
                         <Typography className={classes.text} component='p'>
-                            {data.location.country}
-
+                            {data.location.city}
                         </Typography>
                     </Grid>
                     <Grid item xs={8} className={classes.imageWrap}>

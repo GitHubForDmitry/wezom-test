@@ -19,6 +19,7 @@ import SignIn from "../auth/sign-in";
 import SignUp from "../auth/sign-up";
 import Copyright from "../components/Copyright";
 import PrivateRoute from "./private-route";
+import HomeContainer from "../screens/HomeContainer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -71,12 +72,12 @@ function RouterComponent(props) {
                     </header>
 
                     <Switch>
-                        <PrivateRoute exact path='/' component={ Home }/>
+                        <PrivateRoute exact path='/' component={ HomeContainer }/>
                         <Route exact path="/">
                             <Main />
                         </Route>
                         <Route path="/home">
-                            <Home />
+                            <HomeContainer />
                         </Route>
                         <Route path="/contacts">
                             <Contacts />

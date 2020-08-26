@@ -4,18 +4,19 @@ import AppContext from "../context/app-context";
 
 function PrivateRoute({component: RouteComponent, ...rest}) {
 
-    const { currentUser } = useContext(AppContext)
+    // const { currentUser } = useContext(AppContext)
 
     return (
-        <Route
-            {...rest}
-            render={routeProps =>
-            !!currentUser ?
-                (<RouteComponent {...routeProps} />)
-                :
-                (<Redirect to={'/'} />)
-            }
-        />
+        <div></div>
+        // <Route
+        //     {...rest}
+        //     render={routeProps =>
+        //     !!currentUser ?
+        //         (<RouteComponent {...routeProps} />)
+        //         :
+        //         (<Redirect to={'/'} />)
+        //     }
+        // />
     );
 }
 
