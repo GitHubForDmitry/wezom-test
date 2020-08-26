@@ -1,13 +1,13 @@
 import React from "react";
 import {connect, useDispatch, useSelector} from "react-redux";
-import { fetchProducts } from "./productActions";
+import { fetchCards } from "./cardActions";
 
 const  ProductList  = () => {
 
     const dispatch = useDispatch()
-    const data = useSelector(data => data.products);
+    const data = useSelector(data => data.cards);
     React.useEffect(() => {
-        dispatch(fetchProducts())}, [])
+        dispatch(fetchCards())}, [])
 
 
         const { items, loading, error } = data;
@@ -32,9 +32,9 @@ const  ProductList  = () => {
 }
 
 const mapStateToProps = state => ({
-    products: state.products.items,
-    loading: state.products.loading,
-    error: state.products.error
+    cards: state.cards.items,
+    loading: state.cards.loading,
+    error: state.cards.error
 });
 
 export default connect(mapStateToProps)(ProductList);

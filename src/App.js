@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from 'react-redux'
 import rootReducer from './store/rootReducer';
-import ProductList from "./store/productList";
+import ProductList from "./store/cardtList";
 
 const store = createStore(
     rootReducer,
