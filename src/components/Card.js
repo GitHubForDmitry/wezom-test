@@ -15,6 +15,7 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import WcIcon from '@material-ui/icons/Wc';
 import FlagIcon from '@material-ui/icons/Flag';
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles({
     root: {
@@ -50,8 +51,10 @@ const useStyles = makeStyles({
     }
 });
 
-export default function ImgMediaCard({ data }) {
+export default function ImgMediaCard({  }) {
     const classes = useStyles();
+
+    const data = useSelector(data => data);
     return (
         <Card className={classes.root} pr={2}>
             <CardActionArea>
