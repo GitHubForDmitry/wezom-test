@@ -5,7 +5,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import AppContext from "../context/app-context";
-import { filterCards } from "../store/cardActions";
+import {filterCards, filterCardsSuccess} from "../store/cardActions";
 import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,8 +33,8 @@ export default function CustomizedInputBase({data}) {
                 person => [person.name.first]
                     .join('').toLowerCase().includes(search.toLowerCase())
             )
-        console.log(filter)
-        // dispatch(filterCards(filter));
+        console.log(filter);
+        // dispatch(filterCardsSuccess(filter));
     };
     return (
         <Paper component="form" className={classes.root}>

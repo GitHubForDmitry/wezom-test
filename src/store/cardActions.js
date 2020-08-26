@@ -12,13 +12,6 @@ export function fetchCards() {
     };
 }
 
-export function filterCards(cards) {
-    return dispatch => {
-        const filtered = dispatch(filterCardsSuccess(cards));
-        return filtered
-    };
-}
-
 function handleErrors(response) {
     if (!response.ok) {
         throw Error(response.statusText);
@@ -61,3 +54,10 @@ export const filterCardsFailure = error => ({
     type: FETCH_CARDS_FAILURE,
     payload: { error }
 });
+
+
+export function filterCards(cards) {
+    return dispatch => {
+        dispatch(filterCardsSuccess(cards));
+    };
+}
