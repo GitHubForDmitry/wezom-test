@@ -12,7 +12,13 @@ export function fetchCards() {
     };
 }
 
-// Handle HTTP errors since fetch won't.
+export function filterCards(cards) {
+    return dispatch => {
+        const filtered = dispatch(filterCardsSuccess(cards));
+        return filtered
+    };
+}
+
 function handleErrors(response) {
     if (!response.ok) {
         throw Error(response.statusText);
@@ -34,6 +40,24 @@ export const fetchCardsSuccess = cards => ({
 });
 
 export const fetchCardsFailure = error => ({
+    type: FETCH_CARDS_FAILURE,
+    payload: { error }
+});
+
+export const FILTER_CARDS_BEGIN   = 'FILTER_CARDS_BEGIN';
+export const FILTER_CARDS_SUCCESS = 'FILTER_CARDS_SUCCESS';
+export const FILTER_CARDS_FAILURE = 'FILTER_CARDS_FAILURE';
+
+export const filterCardsBegin = () => ({
+    type: FETCH_CARDS_BEGIN
+});
+
+export const filterCardsSuccess = cards => ({
+    type: FETCH_CARDS_SUCCESS,
+    payload: { cards }
+});
+
+export const filterCardsFailure = error => ({
     type: FETCH_CARDS_FAILURE,
     payload: { error }
 });

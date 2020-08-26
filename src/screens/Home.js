@@ -20,9 +20,9 @@ function Home({ items, error, loading }) {
 
     return (
         <main>
-            {/*<Box mb={2}>*/}
-            {/*    <CustomizedInputBase  />*/}
-            {/*</Box>*/}
+            <Box mb={2}>
+                <CustomizedInputBase data={items} />
+            </Box>
             {/*<Box mb={2}>*/}
             {/*    <SimpleSelect />*/}
             {/*</Box>*/}
@@ -39,9 +39,7 @@ function Home({ items, error, loading }) {
                     {/*.filter(item =>*/}
                     {/*item.name.first.toLowerCase().includes(filter))*/}
 
-
-                    {items.map((item, index) => <ImgMediaCard key={index} data={item}/>)
-                    }
+                    {items.map((item, index) => <ImgMediaCard key={index} data={item}/>)}
                 </Grid>
             </Box>
             {/*<Box>*/}
