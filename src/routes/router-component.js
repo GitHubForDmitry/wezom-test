@@ -1,16 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import {
     Box,
     Grid,
-    Paper,
-    Button
 } from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import Contacts from "../screens/Contacts";
-import Home from "../screens/Home";
 import Main from "../screens/Main";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import NavBar from "../components/NavBar";
@@ -56,43 +50,42 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function RouterComponent(props) {
+function RouterComponent() {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
     return (
         <Box className={classes.root}>
 
-        <Router>
-                    <header>
+            <Router>
+                <header>
                     <Grid container direction="row">
                         <Grid container direction="row" justify="space-around">
                             <NavBar/>
                         </Grid>
                     </Grid>
-                    </header>
+                </header>
 
-                    <Switch>
-                        <PrivateRoute exact path='/' component={ HomeContainer }/>
-                        <Route exact path="/">
-                            <Main />
-                        </Route>
-                        <Route path="/home">
-                            <HomeContainer />
-                        </Route>
-                        <Route path="/contacts">
-                            <Contacts />
-                        </Route>
-                        <Route path="/signin">
-                            <SignIn />
-                        </Route>
-                        <Route path="/signup">
-                            <SignUp />
-                        </Route>
-                    </Switch>
-                    <footer>
-                        <Copyright />
-                    </footer>
-        </Router>
+                <Switch>
+                    <PrivateRoute exact path='/' component={HomeContainer}/>
+                    <Route exact path="/">
+                        <Main/>
+                    </Route>
+                    <Route path="/home">
+                        <HomeContainer/>
+                    </Route>
+                    <Route path="/contacts">
+                        <Contacts/>
+                    </Route>
+                    <Route path="/signin">
+                        <SignIn/>
+                    </Route>
+                    <Route path="/signup">
+                        <SignUp/>
+                    </Route>
+                </Switch>
+                <footer>
+                    <Copyright/>
+                </footer>
+            </Router>
         </Box>
 
     );

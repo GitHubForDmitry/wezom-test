@@ -1,7 +1,7 @@
 export function fetchCards() {
     return dispatch => {
         dispatch(fetchCardsBegin());
-        return fetch("https://randomuser.me/api/1.3?results=100")
+        return fetch("https://randomuser.me/api/1.3?results=10")
             .then(handleErrors)
             .then(res => res.json())
             .then(data => {
@@ -55,9 +55,3 @@ export const filterCardsFailure = error => ({
     payload: { error }
 });
 
-
-export function filterCards(cards) {
-    return dispatch => {
-        dispatch(filterCardsSuccess(cards));
-    };
-}

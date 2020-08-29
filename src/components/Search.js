@@ -1,12 +1,9 @@
-import React, {useContext, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import AppContext from "../context/app-context";
-import {filterCards, filterCardsSuccess} from "../store/cardActions";
-import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,32 +18,57 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CustomizedInputBase({data}) {
+export default function CustomizedInputBase({data, filteredProducts, setFilteredProducts, value, setValue}) {
     const classes = useStyles();
-    const [filtered, setFiltered] = useState('');
-    const dispatch = useDispatch();
+    const [selectProducts, setSelectProducts] = useState({});
+    const onProductSearch = useCallback((name) => {
+        name = name.trim();
+        const filteredProducts = name.length
+            ? data.filter(card => card.name.first.toLocaleLowerCase().includes(name.toLocaleLowerCase()))
+            : [];
+        setFilteredProducts(filteredProducts);
+    }, [data]);
 
-    const handleSearch = (event) => {
-        const search = event.target.value;
-        setFiltered(search);
-        const filter = data.filter(
-                person => [person.name.first]
-                    .join('').toLowerCase().includes(search.toLowerCase())
-            )
-        console.log(filter);
-        // dispatch(filterCardsSuccess(filter));
-    };
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        const onKeyDown = (event) => {
+            if (event.keyCode === 27) {
+                setValue('');
+                onProductSearch('');
+            }
+        };
+
+        inputRef.current && inputRef.current.focus();
+
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [onProductSearch]);
+
+    console.log(filteredProducts);
+
     return (
-        <Paper component="form" className={classes.root}>
-            <InputBase
-                className={classes.input}
-                placeholder="Search by name"
-                value={filtered.toLowerCase()}
-                onChange={(e) => handleSearch(e)}
-            />
-            <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                <SearchIcon />
-            </IconButton>
-        </Paper>
+        <React.Fragment>
+        {
+                <Paper component="form" className={classes.root}>
+                    <InputBase
+                        className={classes.input}
+                        placeholder="Search by name"
+                        value={value}
+                        onChange={(event) => {
+                            const name = event.target.value;
+                            setValue(name);
+                            onProductSearch(name.trim());
+                        }}
+                    />
+                    <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                        <SearchIcon />
+                    </IconButton>
+                </Paper>
+
+        }
+        </React.Fragment>
     );
 }

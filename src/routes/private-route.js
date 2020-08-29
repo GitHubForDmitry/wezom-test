@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import AppContext from "../context/app-context";
+import React from 'react';
 
 function PrivateRoute({component: RouteComponent, ...rest}) {
 

@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import {connect, useDispatch, useSelector} from "react-redux";
 import { fetchCards } from "../store/cardActions";
 import Home from "./Home";
+import {getProductsCollection} from "../store/cardSelectors";
 
 const  HomeContainer  = () => {
 
@@ -17,8 +18,15 @@ const  HomeContainer  = () => {
     );
 }
 
+
+const makeMapStateToProps = (state) => {
+    const getCards = getProductsCollection(state);
+    const mapStateToProps = (state) => (getCards(state));
+    return mapStateToProps;
+}
+
 const mapStateToProps = state => ({
-    cards: state.cards.items,
+    cards: makeMapStateToProps(state.cards.items),
     loading: state.cards.loading,
     error: state.cards.error
 });

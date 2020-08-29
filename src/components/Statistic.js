@@ -1,15 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import AppContext from "../context/app-context";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,10 +13,6 @@ const useStyles = makeStyles((theme) => ({
         padding: '20px'
     },
 }));
-
-function ListItemLink(props) {
-    return <ListItem button component="a" {...props} />;
-}
 
 export default function Statistic({data}) {
     const classes = useStyles();
@@ -62,7 +54,6 @@ export default function Statistic({data}) {
                                     <ListItemText primary={item.country}/>
                                     <ListItemText primary={item.count}/>
                                 </ListItem>
-                                <li></li>
                             </React.Fragment>
                         )
                     }
