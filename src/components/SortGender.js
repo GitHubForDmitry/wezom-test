@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleSelect({ gender, handleChange }) {
     const classes = useStyles();
-
+    console.log(gender, 'gender')
     return (
         <>
             <FormControl className={classes.formControl}>
