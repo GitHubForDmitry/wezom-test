@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Box, Grid} from "@material-ui/core";
 import ImgMediaCard from '../components/Card';
 import CustomizedInputBase from "../components/Search";
+import SimpleSelect from "../components/SortGender";
 
 function Home({ items, error, loading }) {
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -21,9 +22,9 @@ function Home({ items, error, loading }) {
                 <CustomizedInputBase data={items} filteredProducts={filteredProducts} setFilteredProducts={setFilteredProducts} value={value}
                                      setValue={setValue}/>
             </Box>
-            {/*<Box mb={2}>*/}
-            {/*    <SimpleSelect />*/}
-            {/*</Box>*/}
+            <Box mb={2}>
+                <SimpleSelect />
+            </Box>
             {/*<Box mb={2}>*/}
             {/*    <MultipleSelect countries={countries} />*/}
             {/*</Box>*/}

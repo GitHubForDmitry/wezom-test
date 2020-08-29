@@ -13,11 +13,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function SimpleSelect() {
+export default function SimpleSelect({ gender, handleChange }) {
     const classes = useStyles();
-    const { gender, handleChange } = useContext(AppContext);
-
-
 
     return (
         <>
