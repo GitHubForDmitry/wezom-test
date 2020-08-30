@@ -3,25 +3,28 @@ import {Box, Grid} from "@material-ui/core";
 import ImgMediaCard from '../components/Card';
 import CustomizedInputBase from "../components/Search";
 import SimpleSelect from "../components/SortGender";
-import MultipleSelect from "../components/MultipleSelect";
+import { ToastContainer } from "react-toastify";
 
-function Home({ items, error, loading }) {
+function Home({ items, error, loading }, props) {
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [filteredGender, setFilteredGender] = useState({status: false, filter: ''});
     const [value, setValue] = useState('');
     const [gender, setGender] = useState('');
+    const [toast, setToast] = useState('');
 
     const handleChange = (e) => {
         const val = e.target.value;
-        console.log(items);
-        console.log(val);
 
         switch (val) {
             case 'male':
-                return items.filter(person => person.gender === val);
+                setFilteredGender({status: true, filter: 'male'});
+                return;
             case 'female':
-                return items.filter(person => person.gender === val);
+                setFilteredGender({status: true, filter: 'female'});
+                return;
             case 'indeterminate':
-                return items.filter(person => person.gender === val);
+                setFilteredGender({status: true, filter: 'indeterminate'});
+                return;
             default:
                 return items;
         }
@@ -30,7 +33,7 @@ function Home({ items, error, loading }) {
     console.log(gender);
 
     if (error) {
-        return <div>Error! {error.message}</div>;
+            setToast(`Error! ${error.message}`);
     }
 
     if (loading) {
@@ -39,6 +42,7 @@ function Home({ items, error, loading }) {
 
     return (
         <main>
+            <ToastContainer />
             <Box mb={2}>
                 <CustomizedInputBase
                     data={items}
@@ -68,7 +72,7 @@ function Home({ items, error, loading }) {
                         ?
                         filteredProducts.map((item, index) => <ImgMediaCard key={index} data={item}/> )
                         :
-                        (items.map((item, index) => <ImgMediaCard key={index} data={item}/>))
+                        (items.map((item, index) => <ImgMediaCard key={index} data={item}/>).filter(item => filteredGender.status ? item.props.data.gender === filteredGender.filter : item))
                     }
                 </Grid>
             </Box>

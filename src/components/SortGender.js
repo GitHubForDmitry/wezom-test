@@ -15,17 +15,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleSelect({ gender, handleChange }) {
     const classes = useStyles();
-    console.log(gender, 'gender')
     return (
         <>
             <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                <InputLabel id="demo-simple-select-label">Choose gender</InputLabel>
                 <Select
                     native
                     required
                     value={gender}
                     onChange={handleChange}
                 >
+                    <option value={''}></option>
                     <option value={'female'}>Female</option>
                     <option value={'male'}>Male</option>
                     <option value={'indeterminate'}>Indeterminate</option>

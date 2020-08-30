@@ -62,19 +62,7 @@ function SignUp({ history }) {
 
     return (
         <Container component="main" maxWidth="xs">
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
-            {/* Same as */}
-            <ToastContainer />
+
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>

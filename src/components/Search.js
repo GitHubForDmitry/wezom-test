@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CustomizedInputBase({data, filteredProducts, setFilteredProducts, value, setValue}) {
+export default function CustomizedInputBase({data, setFilteredProducts, value, setValue}) {
     const classes = useStyles();
     const [selectProducts, setSelectProducts] = useState({});
     const onProductSearch = useCallback((name) => {
@@ -46,8 +46,6 @@ export default function CustomizedInputBase({data, filteredProducts, setFiltered
             document.removeEventListener('keydown', onKeyDown);
         };
     }, [onProductSearch]);
-
-    console.log(filteredProducts);
 
     return (
         <React.Fragment>
