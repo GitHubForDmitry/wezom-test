@@ -4,6 +4,7 @@ import ImgMediaCard from '../components/Card';
 import CustomizedInputBase from "../components/Search";
 import SimpleSelect from "../components/SortGender";
 import { ToastContainer } from "react-toastify";
+import MultipleSelect from "../components/MultipleSelect";
 
 function Home({ items, error, loading }, props) {
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -11,7 +12,10 @@ function Home({ items, error, loading }, props) {
     const [value, setValue] = useState('');
     const [gender, setGender] = useState('');
     const [toast, setToast] = useState('');
+    const [selectedCountry, setSelectedCountry] = useState([]);
 
+    const allCountries = [... new Set(items.map(item => !!item.location.country ? item.location.country : "country not selected"))];
+    console.log(allCountries);
     const handleChange = (e) => {
         const val = e.target.value;
 
@@ -30,8 +34,16 @@ function Home({ items, error, loading }, props) {
         }
     }
 
-    console.log(gender);
+    const handleChangeMultiple = (e) => {
+        const val = e.target.value;
+        setSelectedCountry(val);
+    }
 
+    const multipleSelected = items.filter(function(e) {
+        return selectedCountry.indexOf(e.location.country) > -1;
+    });
+
+    console.log(multipleSelected);
     if (error) {
             setToast(`Error! ${error.message}`);
     }
@@ -55,9 +67,9 @@ function Home({ items, error, loading }, props) {
             <Box mb={2}>
                 <SimpleSelect gender={gender} handleChange={handleChange} />
             </Box>
-            {/*<Box mb={2}>*/}
-            {/*    <MultipleSelect countries={[]} />*/}
-            {/*</Box>*/}
+            <Box mb={2}>
+                <MultipleSelect allCountries={allCountries} handleChangeMultiple={handleChangeMultiple} selectedCountry={selectedCountry} />
+            </Box>
             <Box>
                 <Grid container item xs={12} justify='flex-start'>
                     {/*{!items.length ? data*/}

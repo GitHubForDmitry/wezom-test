@@ -46,11 +46,11 @@ function getStyles(name, personName, theme) {
     };
 }
 
-export default function MultipleSelect() {
+export default function MultipleSelect({allCountries, handleChangeMultiple, selectedCountry}) {
     const classes = useStyles();
     const theme = useTheme();
 
-    const { personName, countries, handleChangeMultiple } = useContext(AppContext);
+    // const { personName, countries, handleChangeMultiple } = useContext(AppContext);
 
     return (
         <div>
@@ -60,7 +60,7 @@ export default function MultipleSelect() {
                     labelId="demo-mutiple-chip-label"
                     id="demo-mutiple-chip"
                     multiple
-                    value={personName}
+                    value={selectedCountry}
                     onChange={handleChangeMultiple}
                     input={<Input id="select-multiple-chip" />}
                     renderValue={(selected) => (
@@ -72,8 +72,8 @@ export default function MultipleSelect() {
                     )}
                     MenuProps={MenuProps}
                 >
-                    {countries.map((name, index) => (
-                        <MenuItem key={index} value={name} style={getStyles(name, personName, theme)}>
+                    {allCountries.map((name, index) => (
+                        <MenuItem key={index} value={name} style={getStyles(name, selectedCountry, theme)}>
                             {name}
                         </MenuItem>
                     ))}
