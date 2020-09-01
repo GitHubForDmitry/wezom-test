@@ -34,26 +34,11 @@ export default function cardReducer(state = initialState, action) {
                 items: []
             };
 
-        case FILTER_CARDS_BEGIN:
-            return {
-                ...state,
-                loading: true,
-                error: null
-            };
-
         case FILTER_CARDS_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                items: action.payload.cards
-            };
-
-        case FILTER_CARDS_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload.error,
-                items: []
+                items: state.items.filter(item => item.name.first.toLocaleLowerCase().includes(action.payload.index.toLocaleLowerCase()))
             };
 
         default:

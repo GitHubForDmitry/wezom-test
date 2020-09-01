@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -18,34 +18,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CustomizedInputBase({data, setFilteredProducts, value, setValue}) {
+export default function Search({items, filterCards}) {
     const classes = useStyles();
-    const [selectProducts, setSelectProducts] = useState({});
-    const onProductSearch = useCallback((name) => {
-        name = name.trim();
-        const filteredProducts = name.length
-            ? data.filter(card => card.name.first.toLocaleLowerCase().includes(name.toLocaleLowerCase()))
-            : [];
-        setFilteredProducts(filteredProducts);
-    }, [data]);
-
-    const inputRef = useRef(null);
-
-    useEffect(() => {
-        const onKeyDown = (event) => {
-            if (event.keyCode === 27) {
-                setValue('');
-                onProductSearch('');
-            }
-        };
-
-        inputRef.current && inputRef.current.focus();
-
-        document.addEventListener('keydown', onKeyDown);
-        return () => {
-            document.removeEventListener('keydown', onKeyDown);
-        };
-    }, [onProductSearch]);
+    const [value, setValue] = React.useState('');
 
     return (
         <React.Fragment>
@@ -55,11 +30,12 @@ export default function CustomizedInputBase({data, setFilteredProducts, value, s
                         className={classes.input}
                         placeholder="Search by name"
                         value={value}
-                        onChange={(event) => {
-                            const name = event.target.value;
-                            setValue(name);
-                            onProductSearch(name.trim());
-                        }}
+                        onChange={event => {
+                            const val = event.target.value;
+                            setValue(val);
+                            filterCards(items, value)
+                          }
+                        }
                     />
                     <IconButton type="submit" className={classes.iconButton} aria-label="search">
                         <SearchIcon />

@@ -12,6 +12,7 @@ export function fetchCards() {
     };
 }
 
+
 function handleErrors(response) {
     if (!response.ok) {
         throw Error(response.statusText);
@@ -31,6 +32,12 @@ export const fetchCardsSuccess = cards => ({
     type: FETCH_CARDS_SUCCESS,
     payload: { cards }
 });
+
+export const filterCards = (cards, index) => ({
+    type: FILTER_CARDS_SUCCESS,
+    payload: { cards, index }
+});
+
 
 export const fetchCardsFailure = error => ({
     type: FETCH_CARDS_FAILURE,
