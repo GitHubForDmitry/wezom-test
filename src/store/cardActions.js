@@ -33,11 +33,6 @@ export const fetchCardsSuccess = cards => ({
     payload: { cards }
 });
 
-export const filterCards = (cards, index) => ({
-    type: FILTER_CARDS_SUCCESS,
-    payload: { cards, index }
-});
-
 
 export const fetchCardsFailure = error => ({
     type: FETCH_CARDS_FAILURE,

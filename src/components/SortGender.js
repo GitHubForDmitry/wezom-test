@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function SimpleSelect({ gender, handleChange }) {
+export default function SimpleSelect({ sortByGender, handleChangeGender }) {
     const classes = useStyles();
     return (
         <>
@@ -22,8 +22,8 @@ export default function SimpleSelect({ gender, handleChange }) {
                 <Select
                     native
                     required
-                    value={gender}
-                    onChange={handleChange}
+                    value={sortByGender}
+                    onChange={(event => handleChangeGender(event))}
                 >
                     <option value={''}></option>
                     <option value={'female'}>Female</option>

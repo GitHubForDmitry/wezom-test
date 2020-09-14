@@ -10,36 +10,43 @@ import {fetchCards} from "../store/cardActions";
 import SearchContainer from "../components/SearchContainer";
 
 function Home() {
-    const [filteredProducts, setFilteredProducts] = useState([]);
-    const [filteredGender, setFilteredGender] = useState({status: false, filter: ''});
-    const [value, setValue] = useState('');
-    const [gender, setGender] = useState('');
-    const [toast, setToast] = useState('');
-    const [selectedCountry, setSelectedCountry] = useState([]);
-    const dispatch = useDispatch()
+    const [personList, setPersonList] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
+    const [sortByGender, setSortByGender] = useState('');
+    const [sortByNationality, setSortByNationality] = useState([]);
+    const [toast, setToast] = useState('')
 
+    const dispatch = useDispatch()
 
     const data = useSelector(data => data.cards);
     const { items, error, loading } = data;
     React.useEffect(() => {
-        dispatch(fetchCards())}, [])
+        dispatch(fetchCards()).then(data => setPersonList(data))
+
+    }, [])
     // const allCountries = [... new Set(items.map(item => !!item.location.country ? item.location.country : "country not selected"))];
 
     const handleSearch = (e) => {
-        const val = e.target.value;
-        setValue(val);
-        let result = items.filter(item =>item.name.first.toLowerCase().includes(val));
+        const value = e.target.value;
+        setSearchValue(value);
+        let result = items.filter(item =>item.name.first.toLowerCase().includes(value));
+
+        setPersonList([...result])
     }
 
 
-    const handleChange = (e) => {
-        const val = e.target.value;
-        setGender(val)
+    const handleChangeGender = (e) => {
+        const value = e.target.value;
+        setSortByGender(value);
+        let result = items.filter(item => item.gender === sortByGender);
+
+        console.log(result)
+        setPersonList([...result])
     }
 
     const handleChangeMultiple = (e) => {
         const val = e.target.value;
-        setSelectedCountry(val);
+        setSortByNationality(val);
     }
 
     // const multipleSelected = items.filter(function(e) {
@@ -59,12 +66,13 @@ function Home() {
             <ToastContainer />
             <Box mb={2}>
                 <SearchContainer
-                    items={items}
+                    handleSearch={handleSearch}
+                    searchValue={searchValue}
                 />
             </Box>
-            {/*<Box mb={2}>*/}
-            {/*    <SimpleSelect gender={gender} handleChange={handleChange} />*/}
-            {/*</Box>*/}
+            <Box mb={2}>
+                <SimpleSelect sortByGender={sortByGender} handleChangeGender={handleChangeGender} />
+            </Box>
             {/*<Box mb={2}>*/}
             {/*    <MultipleSelect allCountries={allCountries} handleChangeMultiple={handleChangeMultiple} selectedCountry={selectedCountry} />*/}
             {/*</Box>*/}
@@ -82,7 +90,7 @@ function Home() {
                     {/*    ?*/}
                     {/*    filteredProducts.map((item, index) => <ImgMediaCard key={index} data={item}/> )*/}
                     {/*    :*/}
-                    {items.map((item, index) => <ImgMediaCard key={index} data={item}/>)
+                    {personList.map((item, index) => <ImgMediaCard key={index} data={item}/>)
                     }
                 </Grid>
             </Box>

@@ -18,9 +18,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Search({items, filterCards}) {
+export default function Search({ handleSearch, searchValue }) {
     const classes = useStyles();
-    const [value, setValue] = React.useState('');
 
     return (
         <React.Fragment>
@@ -29,13 +28,8 @@ export default function Search({items, filterCards}) {
                     <InputBase
                         className={classes.input}
                         placeholder="Search by name"
-                        value={value}
-                        onChange={event => {
-                            const val = event.target.value;
-                            setValue(val);
-                            filterCards(items, value)
-                          }
-                        }
+                        value={searchValue}
+                        onChange={event => handleSearch(event)}
                     />
                     <IconButton type="submit" className={classes.iconButton} aria-label="search">
                         <SearchIcon />
