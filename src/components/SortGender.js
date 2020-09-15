@@ -25,7 +25,7 @@ export default function SimpleSelect({ sortByGender, handleChangeGender }) {
                     value={sortByGender}
                     onChange={(event => handleChangeGender(event))}
                 >
-                    <option value={''}></option>
+                    <option value={''}>All</option>
                     <option value={'female'}>Female</option>
                     <option value={'male'}>Male</option>
                     <option value={'indeterminate'}>Indeterminate</option>

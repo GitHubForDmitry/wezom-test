@@ -21,35 +21,46 @@ function Home() {
 
     const data = useSelector(data => data.cards);
     const { items, error, loading } = data;
+    let urls = [
+        'https://rest.gadventures.com/nationalities',
+        'https://rest.gadventures.com/nationalities?page=2',
+        'https://rest.gadventures.com/nationalities?page=3',
+        'https://rest.gadventures.com/nationalities?page=4',
+        'https://rest.gadventures.com/nationalities?page=5',
+    ];
 
-     const nationalities = async (url) => {
-        await fetch(url || 'https://rest.gadventures.com/nationalities?page=4',
-            {
-                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    let requests = urls.map(url => fetch(url, {
+        method: 'GET',
 
-                headers: {
-                    // 'Content-Type': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Application-Key': 'test_75214fe99c78f9f47d355a7af0c9e9f152ba81ff',
-                },
-            }
-            ).then(data => data.json()).then(res => {
-            console.log(res.links.href)
-                if(!!res.links.href && res.links.href.includes('page')) {
-                    nationalities(res.links.href);
-                    console.log('true')
-                }
-            setNations(res)
-            }).catch( (e) => console.log(e.message))
-    }
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Application-Key': 'test_75214fe99c78f9f47d355a7af0c9e9f152ba81ff',
+        },
+    }));
 
-    console.log(nations)
-    React.useEffect(() => {
+
+
+    useEffect(() => {
         dispatch(fetchCards()).then(data => setPersonList(data));
-        nationalities()
 
-    }, [])
-    console.log(personList)
+        const fetchNationalities = async () => {
+
+            await Promise.all(requests)
+                .then(responses => {
+
+                    return responses;
+                })
+                .then(responses => Promise.all(responses.map(r => r.json())))
+                // все JSON-ответы обработаны, users - массив с результатами
+                .then(users => ( users.map(user => setNations([...nations, user]))));
+        }
+
+        fetchNationalities();
+    }, []);
+
+    const result = [].concat(nations.map(item => !!item.country ? item.country.name : 'not exist'));
+    console.log(nations)
+
     const allCountries = [... new Set(items.map(item => !!item.location.country ? item.location.country : "country not selected"))];
 
     const handleSearch = (e) => {
