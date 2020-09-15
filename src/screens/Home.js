@@ -43,22 +43,21 @@ function Home() {
     useEffect(() => {
         dispatch(fetchCards()).then(data => setPersonList(data));
 
-        const fetchNationalities = async () => {
+        const fetchNationalities = () => {
 
-            await Promise.all(requests)
-                .then(responses => {
+            Promise.all(requests)
 
-                    return responses;
-                })
                 .then(responses => Promise.all(responses.map(r => r.json())))
                 // все JSON-ответы обработаны, users - массив с результатами
-                .then(users => ( users.map(user => setNations([...nations, user]))));
+                .then(users => users.map(user => (user.results.map(item => item)))).then(item =>
+                console.log(item.flat())
+            );
         }
 
         fetchNationalities();
     }, []);
 
-    const result = [].concat(nations.map(item => !!item.country ? item.country.name : 'not exist'));
+    // const result = [].concat(nations.map(item => !!item.country ? item.country.name : 'not exist'));
     console.log(nations)
 
     const allCountries = [... new Set(items.map(item => !!item.location.country ? item.location.country : "country not selected"))];
