@@ -26,6 +26,17 @@ const useStyles = makeStyles({
         width: '100%',
         textAlign: 'center',
         position: 'absolute',
+        top: 280,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        color: "#fff",
+        fontWeight: 700,
+        background: 'rgba(0, 0, 0, 0.3)'
+    },
+    year: {
+        width: '100%',
+        textAlign: 'center',
+        position: 'absolute',
         top: 310,
         left: '50%',
         transform: 'translateX(-50%)',
@@ -68,20 +79,23 @@ export default function ImgMediaCard({ data }) {
                         {data.name.first}{' '}
                         {data.name.last}{' '}
                     </Typography>
-                    <Grid item xs={8} className={classes.imageWrap}>
-                        <Box  mr={2}>
-                            <PhoneIcon color="primary" mr={2}/>
-                        </Box>
-                        <Link to={`tel:${data.phone}`} className={classes.link}>
-                            {data.phone}
-                        </Link>
-                    </Grid>
+                    <Typography className={classes.year} gutterBottom variant="h5" component="h2" noWrap>
+                        {data.dob.age}{' '} years old
+                    </Typography>
                     <Grid item xs={8} className={classes.imageWrap}>
                         <Box  mr={2}>
                             <EmailIcon color="primary"/>
                         </Box>
                         <Link to={`mailto:${data.email}`} className={classes.link}>
                             {data.email}
+                        </Link>
+                    </Grid>
+                    <Grid item xs={8} className={classes.imageWrap}>
+                        <Box  mr={2}>
+                            <PhoneIcon color="primary" mr={2}/>
+                        </Box>
+                        <Link to={`tel:${data.phone}`} className={classes.link}>
+                            {data.phone}
                         </Link>
                     </Grid>
                     <Grid item xs={8} className={classes.imageWrap}>
@@ -97,7 +111,7 @@ export default function ImgMediaCard({ data }) {
                                 <FlagIcon color="primary"/>
                             </Box>
                         <Typography className={classes.text} component='p'>
-                            {data.location.country}
+                            /{data.location.country} /
                         </Typography>
                     </Grid>
                     <Grid item xs={8} className={classes.imageWrap}>

@@ -14,34 +14,52 @@ function Home() {
     const [searchValue, setSearchValue] = useState('');
     const [sortByGender, setSortByGender] = useState('');
     const [sortByNationality, setSortByNationality] = useState([]);
+    const [nations, setNations] = useState([]);
     const [toast, setToast] = useState('')
 
     const dispatch = useDispatch()
 
     const data = useSelector(data => data.cards);
     const { items, error, loading } = data;
+
+     const nationalities = async (url) => {
+        await fetch(url || 'https://rest.gadventures.com/nationalities?page=4',
+            {
+                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+
+                headers: {
+                    // 'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Application-Key': 'test_75214fe99c78f9f47d355a7af0c9e9f152ba81ff',
+                },
+            }
+            ).then(data => data.json()).then(res => {
+            console.log(res.links.href)
+                if(!!res.links.href && res.links.href.includes('page')) {
+                    nationalities(res.links.href);
+                    console.log('true')
+                }
+            setNations(res)
+            }).catch( (e) => console.log(e.message))
+    }
+
+    console.log(nations)
     React.useEffect(() => {
-        dispatch(fetchCards()).then(data => setPersonList(data))
+        dispatch(fetchCards()).then(data => setPersonList(data));
+        nationalities()
 
     }, [])
-    // const allCountries = [... new Set(items.map(item => !!item.location.country ? item.location.country : "country not selected"))];
+    console.log(personList)
+    const allCountries = [... new Set(items.map(item => !!item.location.country ? item.location.country : "country not selected"))];
 
     const handleSearch = (e) => {
         const value = e.target.value;
         setSearchValue(value);
-        let result = items.filter(item =>item.name.first.toLowerCase().includes(value));
-
-        setPersonList([...result])
     }
-
 
     const handleChangeGender = (e) => {
         const value = e.target.value;
         setSortByGender(value);
-        let result = items.filter(item => item.gender === sortByGender);
-
-        console.log(result)
-        setPersonList([...result])
     }
 
     const handleChangeMultiple = (e) => {
@@ -73,9 +91,9 @@ function Home() {
             <Box mb={2}>
                 <SimpleSelect sortByGender={sortByGender} handleChangeGender={handleChangeGender} />
             </Box>
-            {/*<Box mb={2}>*/}
-            {/*    <MultipleSelect allCountries={allCountries} handleChangeMultiple={handleChangeMultiple} selectedCountry={selectedCountry} />*/}
-            {/*</Box>*/}
+            <Box mb={2}>
+                <MultipleSelect allCountries={allCountries} handleChangeMultiple={handleChangeMultiple} sortByNationality={sortByNationality} />
+            </Box>
             <Box>
                 <Grid container item xs={12} justify='flex-start'>
                     {/*{!items.length ? data*/}
@@ -90,7 +108,10 @@ function Home() {
                     {/*    ?*/}
                     {/*    filteredProducts.map((item, index) => <ImgMediaCard key={index} data={item}/> )*/}
                     {/*    :*/}
-                    {personList.map((item, index) => <ImgMediaCard key={index} data={item}/>)
+                    {personList
+                        .filter(item => !!searchValue ? item.name.first.toLowerCase().includes(searchValue) : true)
+                        .filter(item => !!sortByGender ? item.gender === sortByGender : true)
+                        .map((item, index) => <ImgMediaCard key={index} data={item}/>)
                     }
                 </Grid>
             </Box>

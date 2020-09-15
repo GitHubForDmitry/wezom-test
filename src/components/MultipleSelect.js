@@ -46,7 +46,7 @@ function getStyles(name, personName, theme) {
     };
 }
 
-export default function MultipleSelect({allCountries, handleChangeMultiple, selectedCountry}) {
+export default function MultipleSelect({allCountries, handleChangeMultiple, sortByNationality}) {
     const classes = useStyles();
     const theme = useTheme();
 
@@ -60,7 +60,7 @@ export default function MultipleSelect({allCountries, handleChangeMultiple, sele
                     labelId="demo-mutiple-chip-label"
                     id="demo-mutiple-chip"
                     multiple
-                    value={selectedCountry}
+                    value={sortByNationality}
                     onChange={handleChangeMultiple}
                     input={<Input id="select-multiple-chip" />}
                     renderValue={(selected) => (
@@ -73,7 +73,7 @@ export default function MultipleSelect({allCountries, handleChangeMultiple, sele
                     MenuProps={MenuProps}
                 >
                     {allCountries.map((name, index) => (
-                        <MenuItem key={index} value={name} style={getStyles(name, selectedCountry, theme)}>
+                        <MenuItem key={index} value={name} style={getStyles(name, sortByNationality, theme)}>
                             {name}
                         </MenuItem>
                     ))}
