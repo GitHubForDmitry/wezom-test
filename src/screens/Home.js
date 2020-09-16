@@ -21,38 +21,73 @@ function Home() {
 
     const data = useSelector(data => data.cards);
     const { items, error, loading } = data;
-    let urls = [
-        'https://rest.gadventures.com/nationalities',
-        'https://rest.gadventures.com/nationalities?page=2',
-        'https://rest.gadventures.com/nationalities?page=3',
-        'https://rest.gadventures.com/nationalities?page=4',
-        'https://rest.gadventures.com/nationalities?page=5',
-    ];
-
-    let requests = urls.map(url => fetch(url, {
-        method: 'GET',
-
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-Application-Key': 'test_75214fe99c78f9f47d355a7af0c9e9f152ba81ff',
-        },
-    }));
-
-
 
     useEffect(() => {
+        const urls = [
+            'https://rest.gadventures.com/nationalities',
+            'https://rest.gadventures.com/nationalities?page=2',
+            'https://rest.gadventures.com/nationalities?page=3',
+            'https://rest.gadventures.com/nationalities?page=4',
+            'https://rest.gadventures.com/nationalities?page=5',
+        ];
+
+        const requests = urls.map(url => fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Application-Key': 'test_75214fe99c78f9f47d355a7af0c9e9f152ba81ff', //env
+            },
+        }));
+
         dispatch(fetchCards()).then(data => setPersonList(data));
+        // interface IObj {
+        //     id: number;
+        //     country_name: string;
+        //     nat_abbr: string;
+        //     nat_name: string;
+        // }
+        //
+        // const obj: IObj = {
+        //     id: 1, // number
+        //     country_name: 'Armenia', // record.country.name
+        //     nat_abbr: 'AF', // record.country.id
+        //     nat_name: 'Armenian', // record.name
+        // };
+        // const test = {
+        //     id: 1,
+        //     nat_abbr: 'AF', // record.country.id
+        //     country_name: 'Afghanistan', // record.country.name
+        //     nat_name: 'Afghanistan_nat', // record.name
+        // };
+
+        // const obj = {
+        //     id: 1, // number
+        //     country_name: 'Armenia', // record.country.name
+        //     nat_abbr: 'AF', // record.country.id
+        //     nat_name: 'Armenian', // record.name
+        // };
 
         const fetchNationalities = async () => {
 
             await Promise.all(requests)
-                .then(responses => {
-
-                    return responses;
-                })
                 .then(responses => Promise.all(responses.map(r => r.json())))
-                // все JSON-ответы обработаны, users - массив с результатами
-                .then(users => ( users.map(user => setNations([...nations, user]))));
+                .then(records => {
+                    console.log(records.map(data => data.results).flat())// попробовать с reduce
+                    return records.map(data => data.results).flat().reduce((previousValue, currentValue, index) => {
+                        if(!currentValue.country) {
+                            return previousValue
+                        }
+                        return [...previousValue, {
+                                id: index + 1, // number
+                                country_name: currentValue.country.name, // record.country.name
+                                nat_abbr:  currentValue.country.id.toLocaleUpperCase(), // record.country.id
+                                nat_name:  currentValue.name
+                            // record.name
+                        }]
+                    }, [])
+                })
+                .then(nations => console.log(nations))
+
         }
 
         fetchNationalities();
