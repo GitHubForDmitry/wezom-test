@@ -66,37 +66,54 @@ function Home() {
         //     nat_abbr: 'AF', // record.country.id
         //     nat_name: 'Armenian', // record.name
         // };
-
         const fetchNationalities = async () => {
 
             await Promise.all(requests)
                 .then(responses => Promise.all(responses.map(r => r.json())))
                 .then(records => {
-                    console.log(records.map(data => data.results).flat())// попробовать с reduce
                     return records.map(data => data.results).flat().reduce((previousValue, currentValue, index) => {
                         if(!currentValue.country) {
                             return previousValue
                         }
+
                         return [...previousValue, {
                                 id: index + 1, // number
                                 country_name: currentValue.country.name, // record.country.name
                                 nat_abbr:  currentValue.country.id.toLocaleUpperCase(), // record.country.id
-                                nat_name:  currentValue.name
+                                nat_name:  currentValue.name,
+                                // listOfCurrentNations: personList.find(person => {
+                                //     console.log(person)
+                                //   if(person.location.country === currentValue.country.name) {
+                                //       console.log(currentValue.name)
+                                //   }
+                                // } )
                             // record.name
                         }]
                     }, [])
                 })
-                .then(nations => console.log(nations))
+
+                .then(nations => setNations(nations))
 
         }
 
         fetchNationalities();
     }, []);
+    const dataList = !!personList && (personList.map(person => {
+        return {...person,
+            nations: nations.find(nation => {
+                if(person.location.country === nation.country_name) {
+                    return nation.nat_abbr
+                }
+            } ),
 
-    const result = [].concat(nations.map(item => !!item.country ? item.country.name : 'not exist'));
-    console.log(nations)
+        }
+    }))
 
-    const allCountries = [... new Set(items.map(item => !!item.location.country ? item.location.country : "country not selected"))];
+    const allCountries = [... new Set(dataList.map(item => {
+        if(!!item.nations) {
+            return item.nations.nat_name
+        }
+    }))];
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -113,10 +130,6 @@ function Home() {
         setSortByNationality(val);
     }
 
-    // const multipleSelected = items.filter(function(e) {
-    //     return selectedCountry.indexOf(e.location.country) > -1;
-    // });
-
     if (error) {
             setToast(`Error! ${error.message}`);
     }
@@ -125,6 +138,8 @@ function Home() {
         return <div>Loading...</div>;
     }
 
+    console.log(sortByNationality)
+    console.log(dataList)
     return (
         <main>
             <ToastContainer />
@@ -154,7 +169,7 @@ function Home() {
                     {/*    ?*/}
                     {/*    filteredProducts.map((item, index) => <ImgMediaCard key={index} data={item}/> )*/}
                     {/*    :*/}
-                    {personList
+                    {dataList
                         .filter(item => !!searchValue ? item.name.first.toLowerCase().includes(searchValue) : true)
                         .filter(item => !!sortByGender ? item.gender === sortByGender : true)
                         .map((item, index) => <ImgMediaCard key={index} data={item}/>)
