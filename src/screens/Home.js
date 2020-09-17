@@ -3,7 +3,7 @@ import {Box, Grid} from "@material-ui/core";
 import ImgMediaCard from '../components/Card';
 import CustomizedInputBase from "../components/Search";
 import SimpleSelect from "../components/SortGender";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import MultipleSelect from "../components/MultipleSelect";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCards} from "../store/cardActions";
@@ -15,7 +15,6 @@ function Home() {
     const [sortByGender, setSortByGender] = useState('');
     const [sortByNationality, setSortByNationality] = useState([]);
     const [nations, setNations] = useState([]);
-    const [toast, setToast] = useState('')
 
     const dispatch = useDispatch()
 
@@ -39,33 +38,8 @@ function Home() {
             },
         }));
 
-        dispatch(fetchCards()).then(data => setPersonList(data));
-        // interface IObj {
-        //     id: number;
-        //     country_name: string;
-        //     nat_abbr: string;
-        //     nat_name: string;
-        // }
-        //
-        // const obj: IObj = {
-        //     id: 1, // number
-        //     country_name: 'Armenia', // record.country.name
-        //     nat_abbr: 'AF', // record.country.id
-        //     nat_name: 'Armenian', // record.name
-        // };
-        // const test = {
-        //     id: 1,
-        //     nat_abbr: 'AF', // record.country.id
-        //     country_name: 'Afghanistan', // record.country.name
-        //     nat_name: 'Afghanistan_nat', // record.name
-        // };
+        dispatch(fetchCards()).then(data => setPersonList(data)).catch(e => toast(e.message));
 
-        // const obj = {
-        //     id: 1, // number
-        //     country_name: 'Armenia', // record.country.name
-        //     nat_abbr: 'AF', // record.country.id
-        //     nat_name: 'Armenian', // record.name
-        // };
         const fetchNationalities = async () => {
 
             await Promise.all(requests)
@@ -131,15 +105,43 @@ function Home() {
     }
 
     if (error) {
-            setToast(`Error! ${error.message}`);
+            toast(`Error! ${error.message}`);
     }
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    console.log(sortByNationality)
-    console.log(dataList)
+    const arr1 = [
+        {
+            location: {
+                country: "test1"
+            }
+        },
+        {
+            location: {
+                country: "test2"
+            }
+        },
+        {
+            location: {
+                country: "test3"
+            }
+        }
+    ];
+
+    const arr2= ['test1', 'test3'];
+
+    const result = arr1.map(item1 => {
+        const res = arr2.find(item2 => !!item1.location.country.includes(item2));
+        const f = !!res && res.filter(item => typeof item !== false);
+        console.log(f)
+        return res;
+    })
+
+    console.log(result)
+    // console.log(sortByNationality)
+    // console.log(dataList)
     return (
         <main>
             <ToastContainer />
@@ -172,6 +174,7 @@ function Home() {
                     {dataList
                         .filter(item => !!searchValue ? item.name.first.toLowerCase().includes(searchValue) : true)
                         .filter(item => !!sortByGender ? item.gender === sortByGender : true)
+                        .filter(item => !!sortByNationality.length ? item.location.country.includes('British') : true)
                         .map((item, index) => <ImgMediaCard key={index} data={item}/>)
                     }
                 </Grid>
