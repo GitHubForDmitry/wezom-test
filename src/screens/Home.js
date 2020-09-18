@@ -132,12 +132,16 @@ function Home() {
 
     const arr2= ['test1', 'test3'];
 
-    const result = arr1.map(item1 => {
-        const res = arr2.find(item2 => !!item1.location.country.includes(item2));
-        const f = !!res && res.filter(item => typeof item !== false);
-        console.log(f)
+    const result = arr1.reduce((prev, next) => {
+        const res = arr2.find(item2 => {
+            if (next.location.country === item2) {
+
+                console.log(next)
+
+            }
+        })
         return res;
-    })
+    }, [])
 
     console.log(result)
     // console.log(sortByNationality)
