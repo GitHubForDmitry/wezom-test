@@ -1,7 +1,7 @@
 export function fetchCards() {
     return dispatch => {
         dispatch(fetchCardsBegin());
-        return fetch("https://randomuser.me/api/1.3?results=10")
+        return fetch("https://randomuser.me/api/1.3?results=85")
             .then(handleErrors)
             .then(res => res.json())
             .then(data => {

@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Statistic({data}) {
     const classes = useStyles();
 
-
     const dataLength = data.length;
     const female = data.filter(sex => sex.gender === 'female').length;
     const male = data.filter(sex => sex.gender === 'male').length;
@@ -27,7 +26,7 @@ export default function Statistic({data}) {
     const arr = countriesCount.filter((obj, pos) => {
         return countriesCount.map(mapObj => mapObj.country).indexOf(obj.country) === pos;
     });
-    console.log(arr);
+
     return (
         <div >
             <Paper className={classes.root} elevation={3}>

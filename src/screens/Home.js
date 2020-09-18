@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Grid} from "@material-ui/core";
 import ImgMediaCard from '../components/Card';
-import CustomizedInputBase from "../components/Search";
 import SimpleSelect from "../components/SortGender";
 import { ToastContainer, toast } from "react-toastify";
 import MultipleSelect from "../components/MultipleSelect";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCards} from "../store/cardActions";
 import SearchContainer from "../components/SearchContainer";
+import Statistic from "../components/Statistic";
 
 function Home() {
     const [personList, setPersonList] = useState([]);
@@ -137,9 +137,9 @@ function Home() {
                     }
                 </Grid>
             </Box>
-            {/*<Box>*/}
-            {/*    <Statistic data={data}/>*/}
-            {/*</Box>*/}
+            <Box>
+                <Statistic data={dataList}/>
+            </Box>
         </main>
     );
 }
