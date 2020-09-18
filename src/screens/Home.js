@@ -112,40 +112,6 @@ function Home() {
         return <div>Loading...</div>;
     }
 
-    const arr1 = [
-        {
-            location: {
-                country: "test1"
-            }
-        },
-        {
-            location: {
-                country: "test2"
-            }
-        },
-        {
-            location: {
-                country: "test3"
-            }
-        }
-    ];
-
-    const arr2= ['test1', 'test3'];
-
-    const result = arr1.reduce((prev, next) => {
-        const res = arr2.find(item2 => {
-            if (next.location.country === item2) {
-
-                console.log(next)
-
-            }
-        })
-        return res;
-    }, [])
-
-    console.log(result)
-    // console.log(sortByNationality)
-    // console.log(dataList)
     return (
         <main>
             <ToastContainer />
@@ -163,22 +129,10 @@ function Home() {
             </Box>
             <Box>
                 <Grid container item xs={12} justify='flex-start'>
-                    {/*{!items.length ? data*/}
-                    {/*    .filter(item =>*/}
-                    {/*        item.name.first.toLowerCase().includes(filter))*/}
-
-                    {/*    .map((item, index) => <ImgMediaCard key={index} data={item}/>) :*/}
-                    {/*.filter(item =>*/}
-                    {/*item.name.first.toLowerCase().includes(filter))*/}
-
-                    {/*{value.length*/}
-                    {/*    ?*/}
-                    {/*    filteredProducts.map((item, index) => <ImgMediaCard key={index} data={item}/> )*/}
-                    {/*    :*/}
                     {dataList
                         .filter(item => !!searchValue ? item.name.first.toLowerCase().includes(searchValue) : true)
                         .filter(item => !!sortByGender ? item.gender === sortByGender : true)
-                        .filter(item => !!sortByNationality.length ? item.location.country.includes('British') : true)
+                        .filter(item => !!sortByNationality.length ? sortByNationality.includes(item.nations.nat_name) : true)
                         .map((item, index) => <ImgMediaCard key={index} data={item}/>)
                     }
                 </Grid>
