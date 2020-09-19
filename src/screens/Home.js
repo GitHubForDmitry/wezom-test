@@ -20,7 +20,23 @@ function Home() {
 
     const data = useSelector(data => data.cards);
     const { items, error, loading } = data;
-
+    // const notify = (message) => toast(message);
+    //
+    // const refreshPage = () => {
+    //     window.location.reload(true);
+    // }
+    // React.useEffect(() => {
+    //     return () => notify('Fetch fail')
+    // }, [error])
+    // if (!!error) {
+    //
+    //     setTimeout(() => {
+    //         refreshPage();
+    //     }, 2002220)
+    //     return (<div>
+    //             <ToastContainer />
+    //         </div>
+    //     )}
     useEffect(() => {
         const urls = [
             'https://rest.gadventures.com/nationalities',

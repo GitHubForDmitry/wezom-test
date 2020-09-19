@@ -4,9 +4,3 @@
     box-sizing: border-box;
     line-height: 1em;
 }
-
-main {
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 10% 0;
-}
