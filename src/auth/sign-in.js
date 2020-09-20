@@ -57,7 +57,7 @@ function SignIn({ history }) {
     } finally {
         setTimeout(() => {
             setLoading(false)
-        }, 2222)
+        }, 300)
     }
 
     }, []);

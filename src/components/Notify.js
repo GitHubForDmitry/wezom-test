@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CustomizedSnackbars({status, errorMessage}) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState({status});
+    const [open, setOpen] = React.useState(status);
 
     const handleClick = () => {
         setOpen(true);
@@ -36,7 +36,7 @@ export default function CustomizedSnackbars({status, errorMessage}) {
     return (
         <div className={classes.root}>
             <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'right' }}  open={open} autoHideDuration={1000} onClose={handleClose}>
-                <Alert aonClose={handleClose} severity="error">{errorMessage}</Alert>
+                <Alert severity="error">{errorMessage}</Alert>
             </Snackbar>
         </div>
     );

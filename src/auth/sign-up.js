@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, {useCallback, useState} from 'react';
 import {
     Avatar,
     Button,
@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import firebase from "../firebase/index";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import CircularIndeterminate from "../components/Loader";
+import CustomizedSnackbars from "../components/Notify";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -45,24 +47,33 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp({ history }) {
     const classes = useStyles();
+
+    const [error, setError] = useState({status: false, message: ''});
+    const [loading, setLoading] = useState(false);
+
     const handleSignUp = useCallback(async event => {
         event.preventDefault();
         const { email, password } = event.target.elements;
 
         try {
+            setLoading(true);
             await firebase
                 .auth()
                 .createUserWithEmailAndPassword(email.value, password.value)
-            history.push('/home')
+                .then(() => setLoading(false))
+                .then(() => history.push('/home'));
         } catch (e) {
-            toast.error(e.message)
+            setError({status: true, message: e.message});
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 300)
         }
 
-    }, [history]);
+    }, []);
 
-    return (
-        <Container component="main" maxWidth="xs">
-
+    return loading ? <CircularIndeterminate /> : <Container component="main" maxWidth="xs">
+        {error.status && <CustomizedSnackbars status={error.status} errorMessage={error.message} />}
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -116,7 +127,6 @@ function SignUp({ history }) {
                 </form>
             </div>
         </Container>
-    );
 }
 
 export default withRouter(SignUp);
