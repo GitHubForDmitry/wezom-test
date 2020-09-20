@@ -39,7 +39,6 @@ function SignIn({ history }) {
     const classes = useStyles();
 
     const [error, setError] = useState({status: false, message: ''});
-    const [load, setLoad] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleSignIn = useCallback(async event => {
@@ -63,7 +62,6 @@ function SignIn({ history }) {
 
     }, []);
 
-    if(!load) {
         return loading ? <CircularIndeterminate /> : <Container component="main" maxWidth="xs">
             {error.status && <CustomizedSnackbars status={error.status} errorMessage={error.message} />}
             <CssBaseline />
@@ -119,10 +117,6 @@ function SignIn({ history }) {
                 </form>
             </div>
         </Container>
-    }
-    return (
-        <h1>error</h1>
-    );
 }
 
 export default withRouter(SignIn)
