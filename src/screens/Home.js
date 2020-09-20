@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Grid} from "@material-ui/core";
+import {Box, CircularProgress, Grid} from "@material-ui/core";
 import ImgMediaCard from '../components/Card';
 import SimpleSelect from "../components/SortGender";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchCards} from "../store/cardActions";
 import SearchContainer from "../components/SearchContainer";
 import Statistic from "../components/Statistic";
+import Loader from "../components/Loader";
 
 function Home() {
     const [personList, setPersonList] = useState([]);
@@ -125,7 +126,7 @@ function Home() {
     }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     return (

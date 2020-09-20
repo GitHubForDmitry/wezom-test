@@ -13,7 +13,6 @@ import { withRouter } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from "../firebase/index";
-import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import CircularIndeterminate from "../components/Loader";
 import CustomizedSnackbars from "../components/Notify";
