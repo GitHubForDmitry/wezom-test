@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,8 @@ import Container from '@material-ui/core/Container';
 import firebase from "../firebase";
 import {toast} from "react-toastify";
 import { withRouter } from 'react-router-dom';
+import CustomizedSnackbars from "../components/Notify";
+import CircularIndeterminate from "../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -35,23 +37,35 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn({ history }) {
     const classes = useStyles();
+
+    const [error, setError] = useState({status: false, message: ''});
+    const [load, setLoad] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     const handleSignIn = useCallback(async event => {
         event.preventDefault();
         const { email, password } = event.target.elements;
 
-        try {
-            await firebase
-                .auth()
-                .signInWithEmailAndPassword(email.value, password.value);
-            history.push('/home')
-        } catch (e) {
-            toast.error(e.message)
-        }
+    try {
+        setLoading(true);
 
-    }, [history]);
+        await firebase
+            .auth()
+            .signInWithEmailAndPassword(email.value, password.value).then(() => setLoading(false)).then(() => history.push('/home'));
+             // history.push('/home')
+    } catch (e) {
+        setError({status: true, message: e.message});
+    } finally {
+        setTimeout(() => {
+            setLoading(false)
+        }, 2222)
+    }
 
-    return (
-        <Container component="main" maxWidth="xs">
+    }, []);
+
+    if(!load) {
+        return loading ? <CircularIndeterminate /> : <Container component="main" maxWidth="xs">
+            {error.status && <CustomizedSnackbars status={error.status} errorMessage={error.message} />}
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -105,6 +119,9 @@ function SignIn({ history }) {
                 </form>
             </div>
         </Container>
+    }
+    return (
+        <h1>error</h1>
     );
 }
 
