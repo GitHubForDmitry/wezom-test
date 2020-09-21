@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, CircularProgress, Grid} from "@material-ui/core";
+import {Box, Grid} from "@material-ui/core";
 import ImgMediaCard from '../components/Card';
 import SimpleSelect from "../components/SortGender";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,6 +9,22 @@ import {fetchCards} from "../store/cardActions";
 import SearchContainer from "../components/SearchContainer";
 import Statistic from "../components/Statistic";
 import Loader from "../components/Loader";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+        maxWidth: 1440,
+        margin: '0 auto'
+    },
+    paper: {
+        height: 140,
+        width: 100,
+    },
+    control: {
+        padding: theme.spacing(2),
+    },
+}));
 
 function Home() {
     const [personList, setPersonList] = useState([]);
@@ -16,6 +32,7 @@ function Home() {
     const [sortByGender, setSortByGender] = useState('');
     const [sortByNationality, setSortByNationality] = useState([]);
     const [nations, setNations] = useState([]);
+    const classes = useStyles();
 
     const dispatch = useDispatch()
 
@@ -131,29 +148,36 @@ function Home() {
 
     return (
         <main>
-            <ToastContainer />
-            <Box mb={2}>
-                <SearchContainer
-                    handleSearch={handleSearch}
-                    searchValue={searchValue}
-                />
-            </Box>
-            <Box mb={2}>
-                <SimpleSelect sortByGender={sortByGender} handleChangeGender={handleChangeGender} />
-            </Box>
-            <Box mb={2}>
-                <MultipleSelect allCountries={allCountries} handleChangeMultiple={handleChangeMultiple} sortByNationality={sortByNationality} />
-            </Box>
-            <Box>
-                <Grid container item xs={12} justify='flex-start'>
-                    {dataList
-                        .filter(item => !!searchValue ? item.name.first.toLowerCase().includes(searchValue) : true)
-                        .filter(item => !!sortByGender ? item.gender === sortByGender : true)
-                        .filter(item => !!sortByNationality.length ? sortByNationality.includes(item.nations.nat_name) : true)
-                        .map((item, index) => <ImgMediaCard key={index} data={item}/>)
-                    }
+            <Grid container className={classes.root}>
+                <Grid item xs={12}>
+                    <Grid container justify="center" >
+                        <Box mb={2}>
+                            <SearchContainer
+                                handleSearch={handleSearch}
+                                searchValue={searchValue}
+                            />
+                        </Box>
+                        <Box mb={2}>
+                            <SimpleSelect sortByGender={sortByGender} handleChangeGender={handleChangeGender} />
+                        </Box>
+                        <Box mb={2}>
+                            <MultipleSelect allCountries={allCountries} handleChangeMultiple={handleChangeMultiple} sortByNationality={sortByNationality} />
+                        </Box>
+                    </Grid>
                 </Grid>
-            </Box>
+            </Grid>
+            <Grid container className={classes.root}>
+                <Grid item xs={12}>
+                    <Grid container justify="center" >
+                {dataList
+                    .filter(item => !!searchValue ? item.name.first.toLowerCase().includes(searchValue) : true)
+                    .filter(item => !!sortByGender ? item.gender === sortByGender : true)
+                    .filter(item => !!sortByNationality.length ? sortByNationality.includes(item.nations.nat_name) : true)
+                    .map((item, index) => <ImgMediaCard key={index} data={item}/>)
+                }
+                    </Grid>
+                </Grid>
+            </Grid>
             <Box>
                 <Statistic data={dataList}/>
             </Box>
